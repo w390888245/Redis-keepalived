@@ -34,7 +34,7 @@ After=network.target
 [Service]
 Type=forking
 ExecStart=/usr/local/redis6/master6389/redis-server /usr/local/redis6/master6389/redis6389.conf
-ExecStop=/usr/local/redis6/master6389/redis-cli -h 127.0.0.1 -p12sinaqqmsn63 6389 shutdown
+ExecStop=/usr/local/redis6/master6389/redis-cli -h 127.0.0.1 -ppwd123 6389 shutdown
 PrivateTmp=true
 [Install]
 WantedBy=multi-user.target
@@ -73,7 +73,7 @@ After=network.target
 [Service]
 Type=forking
 ExecStart=/usr/local/redis6/slave6389/redis-server /usr/local/redis6/slave6389/redis6389.conf
-ExecStop=/usr/local/redis6/slave6389/redis-cli -h 127.0.0.1 -p12sinaqqmsn63 6389 shutdown
+ExecStop=/usr/local/redis6/slave6389/redis-cli -h 127.0.0.1 -ppwd123 6389 shutdown
 PrivateTmp=true
 [Install]
 WantedBy=multi-user.target
@@ -154,7 +154,7 @@ systemctl restart firewalld
 # 常用命令
 ```
 //进入Redis
-./redis-cli -h 127.0.0.1 -p 6389 -a 12sinaqqmsn63
+./redis-cli -h 127.0.0.1 -p 6389 -a pwd123
 //从机设为主机 （在redis里）
 SLAVEOF no one
 //指定的Redis设为从机（在redis里）
@@ -175,9 +175,9 @@ systemctl stop keepalived
 //查看Redis和keepalived启动状态
 ps -ef |grep 'redis\|keepalived'
 //查看Redis主从权限
-./redis-cli -h 127.0.0.1 -p 6389 -a 12sinaqqmsn63 INFO|grep role
+./redis-cli -h 127.0.0.1 -p 6389 -a pwd123 INFO|grep role
 //中文转码
-./redis-cli -h 127.0.0.1 -p 6389 -a 12sinaqqmsn63  --raw
+./redis-cli -h 127.0.0.1 -p 6389 -a pwd123  --raw
  
 // 81启动旧redis5 6379
 cd /usr/local/redis5/
@@ -192,9 +192,9 @@ kill -9 端口号
 ls -l /proc/13802/cwd
 
 //Redis批量删除
-./redis-cli -h 127.0.0.1 -p 6379 -a 12sinaqqmsn63 keys 'FL_*'  |  xargs ./redis-cli -h 127.0.0.1 -p 6379 -a 12sinaqqmsn63 del
+./redis-cli -h 127.0.0.1 -p 6379 -a pwd123 keys 'FL_*'  |  xargs ./redis-cli -h 127.0.0.1 -p 6379 -a pwd123 del
 
-./redis-cli -h 172.20.105.61 -p 6379 -a 12sinaqqmsn63 keys 'syncOrderData_*'  |  xargs ./redis-cli -h 172.20.105.61 -p 6379 -a 12sinaqqmsn63 del
+./redis-cli -h 192.168.1.81 -p 6379 -a pwd123 keys 'syncOrderData_*'  |  xargs ./redis-cli -h 192.168.1.81 -p 6379 -a pwd123 del
 ```
 
 
@@ -223,13 +223,13 @@ import java.io.IOException;
 @Configuration
 public class MyRedissonConfig {
 
-    @Value("${spring.redis.host:172.20.200.230}")
+    @Value("${spring.redis.host:192.168.1.230}")
     String ip = "";
 
     @Value("${spring.redis.port:6379}")
     int port = 6379;
 
-    @Value("${spring.redis.password:12sinaqqmsn63}")
+    @Value("${spring.redis.password:pwd123}")
     String password = "";
 
     @Bean(destroyMethod = "shutdown")
