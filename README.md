@@ -7,17 +7,17 @@
 # 测试环境机器分配
 机器：192.168.1.81Redis主机  端口6389keepalived，vip地址：192.168.1.230（以后Java服务配置redis的地址都为这个，不会直接访问redis的IP，相当于keepalived给Redis做了请求分发）机器：    192.168.1.82Redis从机  端口6389keepalived，vip地址：192.168.1.230
 
-所用文件
-redis-6.2.6.gar.gz
-keepalived-2.2.4
+# 所用文件
+[redis-6.2.6.gar.gz](https://github.com/w390888245/Redis-keepalived/blob/main/redis-6.2.6.tar.gz)
+[keepalived-2.2.4](https://github.com/w390888245/Redis-keepalived/blob/main/keepalived-2.2.4.tar.gz)
+
 
 
 # redis安装和配置
 ## Redis主机配置
 ```
-//存放目录 
-/usr/local/redis6/master6389
-//redis6389.conf 放入到 
+ 
+//将 /script_master/redis6389.conf放入到 
 /usr/local/redis6/master6389
 根据需求修改配置内容： 端口号、密码、文件输出路径等
 
@@ -56,7 +56,7 @@ systemctl restart firewalld
 ```
 ## Redis从机配置
 ```
-//存放目录
+//将 /script_slave/redis6389.conf放入到 
 /usr/local/redis6/slave6389
 根据需求修改配置内容： 端口号、密码、文件输出路径等
 
@@ -130,12 +130,15 @@ firewall-cmd --direct --permanent --add-rule ipv4 filter INPUT 0 --in-interface 
 //增加完成后两台机器刷新
 firewall-cmd --reload
 systemctl restart firewalld
-```
-将↑主机配置keepalived.conf 放入主机的 /etc/keepalived/  
-将↑从机配置keepalived.conf 放入从机的 /etc/keepalived/  
 
-将以上5个.sh脚本文件放入主机和从机中	/etc/keepalived/scripts/
+//将 /script_master/keepalived.conf 放入主机的 /etc/keepalived/  
+//将 /script_slave/keepalived.conf 放入从机的 /etc/keepalived/  
+
+将 ./redis_*.sh 这5个.sh脚本文件放入主机 81 和从机 82 的目录中	/etc/keepalived/scripts/
 检查以上几个文件内容，IP地址、网卡地址、文件路径等内容
+
+```
+
 
 
 # Redis数据迁移
