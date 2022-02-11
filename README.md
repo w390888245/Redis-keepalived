@@ -9,6 +9,7 @@
 
 # 所用文件
 [redis-6.2.6.gar.gz](https://github.com/w390888245/Redis-keepalived/blob/main/redis-6.2.6.tar.gz)
+
 [keepalived-2.2.4](https://github.com/w390888245/Redis-keepalived/blob/main/keepalived-2.2.4.tar.gz)
 
 
@@ -161,7 +162,7 @@ systemctl restart firewalld
 //从机设为主机 （在redis里）
 SLAVEOF no one
 //指定的Redis设为从机（在redis里）
-slaveof  172.20.200.82 6389
+slaveof  192.168.1.82 6389
 //查看防火墙端口配置
 vim /etc/firewalld/zones/public.xml
 
